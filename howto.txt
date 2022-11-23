@@ -1,5 +1,5 @@
 1. Download CKTSO package from https://github.com/chenxm1986/cktso
-2. Copy libcktso.so, libcktso_l.so, cktso.h, and cktso.lic (from CKTSO package) here
+2. Copy libcktso.so, libcktso_l.so, cktso.h, and cktso.lic (all from CKTSO package) here
 3. Type "make"
 4. Type "export LD_LIBRARY_PATH=."
 4. Type "./demo add20.mtx" or "./demo_l add20.mtx"
