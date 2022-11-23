@@ -107,7 +107,7 @@ int CKTSO_L_DestroyGpuAccelerator
 * CKTSO_GpuRefactorize (CKTSO_L_GpuRefactorize): refactorizes matrix without partial pivoting
 * Call this routine after CKTSO_InitializeGpuAccelerator (CKTSO_L_InitializeGpuAccelerator) has been called
 * @accel: GPU-accelerator instance handle returned by CKTSO_CreateGpuAccelerator (CKTSO_L_CreateGpuAccelerator)
-* @ax: double array of length ap[n], matrix values
+* @ax: double array of length ap[n], matrix values, in host memory
 */
 int CKTSO_GpuRefactorize
 (
@@ -124,8 +124,8 @@ int CKTSO_L_GpuRefactorize
 /*
 * CKTSO_GpuSolve (CKTSO_L_GpuSolve): solves solution
 * Call this routine after CKTSO_GpuRefactorize (CKTSO_L_GpuRefactorize) has been called
-* @b: double array of length n to specify right-hand-side vector
-* @x: double array of length n to get solution
+* @b: double array of length n to specify right-hand-side vector, in host memory
+* @x: double array of length n to get solution, in host memory
 */
 int CKTSO_GpuSolve
 (
