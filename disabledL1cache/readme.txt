@@ -1,1 +1,1 @@
-On some GPUs, it is found that using L1 caches can lead to incorrect results. Thus, libraries with L1 cache disabled are also provided. The overhead is some performance loss.
+On some GPUs, it is found that L1 cache must be disabled to get correct results. Thus, libraries with L1 cache disabled are also provided. The overhead is some performance loss (about ~20%).
