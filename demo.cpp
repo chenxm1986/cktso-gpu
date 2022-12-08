@@ -79,23 +79,48 @@ bool ReadMtxFile(const char file[], int &n, int *&ap, int *&ai, double *&ax)
     return true;
 }
 
-double L2NormOfResidual(const int n, const int ap[], const int ai[], const double ax[], const double x[], const double b[])
+double L2NormOfResidual(const int n, const int ap[], const int ai[], const double ax[], const double x[], const double b[], bool row0_col1)
 {
-    double s = 0.;
-    for (int i = 0; i < n; ++i)
+    if (row0_col1)
     {
-        double r = 0.;
-        const int start = ap[i];
-        const int end = ap[i + 1];
-        for (int p = start; p < end; ++p)
+        double *bb = new double[n];
+        memcpy(bb, b, sizeof(double) * n);
+        for (int i = 0; i < n; ++i)
         {
-            const int j = ai[p];
-            r += ax[p] * x[j];
+            const double xx = x[i];
+            const int start = ap[i];
+            const int end = ap[i + 1];
+            for (int p = start; p < end; ++p)
+            {
+                bb[ai[p]] -= xx * ax[p];
+            }
         }
-        r -= b[i];
-        s += r * r;
+        double s = 0.;
+        for (int i = 0; i < n; ++i)
+        {
+            s += bb[i] * bb[i];
+        }
+        delete[]bb;
+        return sqrt(s);
     }
-    return sqrt(s);
+    else
+    {
+        double s = 0.;
+        for (int i = 0; i < n; ++i)
+        {
+            double r = 0.;
+            const int start = ap[i];
+            const int end = ap[i + 1];
+            for (int p = start; p < end; ++p)
+            {
+                const int j = ai[p];
+                r += ax[p] * x[j];
+            }
+            r -= b[i];
+            s += r * r;
+        }
+        return sqrt(s);
+    }
 }
 
 int main(int argc, char *argv[])
@@ -145,7 +170,7 @@ int main(int argc, char *argv[])
     iparm_cpu[0] = 1;//enable timer
 
     //cpu symbolic analysis
-    inst_cpu->Analyze(n, ap, ai, ax, 0/*-1 for transposed matrix*/, 0);
+    inst_cpu->Analyze(n, ap, ai, ax, 0);
     printf("Analysis time = %g s.\n", oparm_cpu[0] * 1e-6);
 
     //cpu factorization
@@ -189,7 +214,7 @@ int main(int argc, char *argv[])
     printf("GPU refactorization time = %g s.\n", oparm_gpu[1] * 1e-6);
 
     //solve on gpu
-    ret = inst_gpu->GpuSolve(b, x);
+    ret = inst_gpu->GpuSolve(b, x, false);
     if (ret != 0)
     {
         printf("Failed to solve on gpu, return code = %d.\n", ret);
@@ -198,7 +223,18 @@ int main(int argc, char *argv[])
     printf("GPU solving time = %g s.\n", oparm_gpu[2] * 1e-6);
 
     //calculate error of solution
-    printf("Residual = %g.\n", L2NormOfResidual(n, ap, ai, ax, x, b));
+    printf("Residual = %g.\n", L2NormOfResidual(n, ap, ai, ax, x, b, false));
+
+    ret = inst_gpu->GpuSolve(b, x, true);
+    if (ret != 0)
+    {
+        printf("Failed to solve on gpu, return code = %d.\n", ret);
+        goto EXIT;
+    }
+    printf("GPU transposed solving time = %g s.\n", oparm_gpu[2] * 1e-6);
+
+    //calculate error of solution
+    printf("Residual = %g.\n", L2NormOfResidual(n, ap, ai, ax, x, b, true));
 
 EXIT:
     delete []ap;

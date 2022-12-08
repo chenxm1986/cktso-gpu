@@ -1,5 +1,5 @@
 /*CKTSO-GPU is a GPU acceleration module of CKTSO*/
-/*Version 20221123*/
+/*Version 20221207*/
 #ifndef __CKTSO_GPU__
 #define __CKTSO_GPU__
 
@@ -126,19 +126,22 @@ int CKTSO_L_GpuRefactorize
 * Call this routine after CKTSO_GpuRefactorize (CKTSO_L_GpuRefactorize) has been called
 * @b: double array of length n to specify right-hand-side vector, in host memory
 * @x: double array of length n to get solution, in host memory
+* @row0_column1: row or column mode
 */
 int CKTSO_GpuSolve
 (
 	_IN_ ICktSoGpu accel,
 	_IN_ const double b[],
-	_OUT_ double x[] /*x address can be same as b address*/
+	_OUT_ double x[], /*x address can be same as b address*/
+	_IN_ bool row0_column1
 );
 
 int CKTSO_L_GpuSolve
 (
 	_IN_ ICktSoGpu_L accel,
 	_IN_ const double b[],
-	_OUT_ double x[] /*x address can be same as b address*/
+	_OUT_ double x[], /*x address can be same as b address*/
+	_IN_ bool row0_column1
 );
 
 #ifdef __cplusplus
@@ -162,7 +165,8 @@ struct __CKTSO_GPU
 	virtual int _CDECL_ GpuSolve
 	(
 		_IN_ const double b[],
-		_OUT_ double x[] /*x address can be same as b address*/
+		_OUT_ double x[], /*x address can be same as b address*/
+		_IN_ bool row0_column1
 	) = 0;
 };
 
@@ -182,7 +186,8 @@ struct __CKTSO_L_GPU
 	virtual int _CDECL_ GpuSolve
 	(
 		_IN_ const double b[],
-		_OUT_ double x[] /*x address can be same as b address*/
+		_OUT_ double x[], /*x address can be same as b address*/
+		_IN_ bool row0_column1
 	) = 0;
 };
 #endif
