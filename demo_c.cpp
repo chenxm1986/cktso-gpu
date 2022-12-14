@@ -147,8 +147,8 @@ int main(int argc, char *argv[])
 {
     if (argc < 2)
     {
-        printf("Usage: benchmark <mtx file>\n");
-        printf("Example: benchmark add20.mtx\n");
+        printf("Usage: demo_c <mtx file>\n");
+        printf("Example: demo_c add20.mtx\n");
         return -1;
     }
 
