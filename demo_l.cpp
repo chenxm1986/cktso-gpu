@@ -174,7 +174,7 @@ int main(int argc, char *argv[])
     printf("Analysis time = %g s.\n", oparm_cpu[0] * 1e-6);
 
     //cpu factorization
-    inst_cpu->Factorize(ax, false);
+    inst_cpu->Factorize(ax, true);
     printf("CPU factorization time = %g s.\n", oparm_cpu[1] * 1e-6);
 
     //sort factors by cpu solver instance to reduce gpu accelerator initialization time
