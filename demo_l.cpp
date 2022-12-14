@@ -83,7 +83,7 @@ double L2NormOfResidual(const long long n, const long long ap[], const long long
 {
     if (row0_col1)
     {
-        double *bb = new double[n];
+        double *bb = new double [n];
         memcpy(bb, b, sizeof(double) * n);
         for (long long i = 0; i < n; ++i)
         {
@@ -100,7 +100,7 @@ double L2NormOfResidual(const long long n, const long long ap[], const long long
         {
             s += bb[i] * bb[i];
         }
-        delete[]bb;
+        delete []bb;
         return sqrt(s);
     }
     else
@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
     iparm_cpu[0] = 1;//enable timer
 
     //cpu symbolic analysis
-    inst_cpu->Analyze(n, ap, ai, ax, 0);
+    inst_cpu->Analyze(false, n, ap, ai, ax, 0);
     printf("Analysis time = %g s.\n", oparm_cpu[0] * 1e-6);
 
     //cpu factorization

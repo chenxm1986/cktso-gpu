@@ -1,5 +1,5 @@
 /*CKTSO-GPU is a GPU acceleration module of CKTSO*/
-/*Version 20221207*/
+/*Version 20221214*/
 #ifndef __CKTSO_GPU__
 #define __CKTSO_GPU__
 

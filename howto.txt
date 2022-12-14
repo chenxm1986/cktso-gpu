@@ -1,7 +1,5 @@
 1. Download CKTSO package from https://github.com/chenxm1986/cktso
 2. Copy libcktso.so, libcktso_l.so, cktso.h, and cktso.lic (all from CKTSO package) here
-3. Type "make"
-4. Type "export LD_LIBRARY_PATH=."
-4. Type "./demo add20.mtx" or "./demo_l add20.mtx"
-
-If your matrix is stored in the column-major order, change the 5th argument to -1 when calling CKTSO(_L)_Analyze to use the transposed mode. Note: in the transposed mode, the L2NormOfResidual function provided in demo.cpp and demo_l.cpp will not get correct residual as it is for row-major matrices.
+3. Type in "make"
+4. Type in "export LD_LIBRARY_PATH=."
+4. Type in "./demo add20.mtx" or "./demo_l add20.mtx" or "./demo_c add20.mtx" or "./demo_lc add20.mtx"
